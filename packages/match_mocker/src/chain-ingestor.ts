@@ -17,7 +17,7 @@ export async function init() {
 }
 
 export async function registerMatch(player1: Player, player2: Player) {
-  // TODO: actual chain
+  // TODO: configurable chain
   const c = contracts[hardhat.id][0].contracts.ScoreSage;
   const { request } = await gameServerWallet.simulateContract({
     address: c.address,
