@@ -56,24 +56,25 @@ function getContractDataFromDeployments() {
  * This script should be run last.
  */
 const generateTsAbis: DeployFunction = async function () {
-  const TARGET_DIR = "../nextjs/generated/";
+  const TARGET_DIRS = ["../nextjs/generated/", "../match_mocker/generated/"];
   const allContractsData = getContractDataFromDeployments();
 
   const fileContent = Object.entries(allContractsData).reduce((content, [chainId, chainConfig]) => {
     return `${content}${parseInt(chainId).toFixed(0)}:${JSON.stringify(chainConfig, null, 2)},`;
   }, "");
+  TARGET_DIRS.forEach(dir => {
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+    fs.writeFileSync(
+      `${dir}deployedContracts.ts`,
+      prettier.format(`const contracts = {${fileContent}} as const; \n\n export default contracts`, {
+        parser: "typescript",
+      }),
+    );
 
-  if (!fs.existsSync(TARGET_DIR)) {
-    fs.mkdirSync(TARGET_DIR);
-  }
-  fs.writeFileSync(
-    `${TARGET_DIR}deployedContracts.ts`,
-    prettier.format(`const contracts = {${fileContent}} as const; \n\n export default contracts`, {
-      parser: "typescript",
-    }),
-  );
-
-  console.log(`📝 Updated TypeScript contract definition file on ${TARGET_DIR}deployedContracts.ts`);
+    console.log(`📝 Updated TypeScript contract definition file on ${dir}deployedContracts.ts`);
+  });
 };
 
 export default generateTsAbis;
