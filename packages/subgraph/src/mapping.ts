@@ -1,30 +1,25 @@
-import { BigInt } from "@graphprotocol/graph-ts";
-import { GreetingChange } from "../generated/YourContract/YourContract";
-import { Greeting, Sender } from "../generated/schema";
+import { newPublishedRating } from "../generated/ScoreSage/ScoreSage";
+import { Player } from "../generated/schema";
 
-export function handleSetPurpose(event: GreetingChange): void {
-  let senderString = event.params.greetingSetter.toHexString();
+export function handlePublishedRating(event: newPublishedRating): void {
+  let senderString = event.params.player.toHexString();
 
-  let sender = Sender.load(senderString);
+  let player = Player.load(senderString);
 
-  if (sender === null) {
-    sender = new Sender(senderString);
-    sender.address = event.params.greetingSetter;
-    sender.createdAt = event.block.timestamp;
-    sender.greetingCount = BigInt.fromI32(1);
+  if (player === null) {
+    player = new Player(senderString);
+    player.address = event.params.player;
+    player.createdAt = event.block.timestamp;
+    player.rating = event.params.rating;
+    player.gamesWon = 0;
+    player.gamesLost = 0;
   } else {
-    sender.greetingCount = sender.greetingCount.plus(BigInt.fromI32(1));
+    if (event.params.winner) {
+      player.gamesWon = player.gamesWon += 1;
+    } else {
+      player.gamesLost = player.gamesLost += 1;
+    }
   }
 
-  let purpose = new Greeting(
-    event.transaction.hash.toHex() + "-" + event.logIndex.toString()
-  );
-
-  purpose.greeting = event.params.newGreeting;
-  purpose.sender = senderString;
-  purpose.createdAt = event.block.timestamp;
-  purpose.transactionHash = event.transaction.hash.toHex();
-
-  purpose.save();
-  sender.save();
+  player.save();
 }
