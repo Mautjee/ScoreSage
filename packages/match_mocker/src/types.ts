@@ -18,3 +18,4 @@ export type EloCalculationResult = {
   winner: number,
   loser: number
 };
+

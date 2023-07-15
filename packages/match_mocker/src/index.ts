@@ -1,3 +1,4 @@
+import { MATCH_FREQUENCY } from "./constants";
 import { calculate as calcElo } from "./elo-calc";
 import { generateMatchResult } from "./generator";
 import {
@@ -6,12 +7,17 @@ import {
   getPlayerRating,
   updateRating,
 } from "./player-db";
-const MATCH_FREQUENCY = 500;
+
+import {
+  init as initChainIngestor,
+  registerMatch
+} from "./chain-ingestor";
 
 async function start() {
   let prom;
   let resolve = (value?: unknown) => {};
   initDb();
+  await initChainIngestor();
 
   while (true) {
     prom = new Promise((r) => {
@@ -30,8 +36,8 @@ async function start() {
     );
 
     const newPlayers = updateRating(matchRes, eloGains);
+    await registerMatch(newPlayers.player1, newPlayers.player2);
 
-    // TODO: put match on chain
     // TODO: verify ELO-rating calculation in circuit
   }
 }
