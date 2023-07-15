@@ -6,23 +6,23 @@ import "hardhat/console.sol";
 
 contract ScoreSage {
 	struct PlayerRating {
-		uint256 rating;
+		uint32 rating;
 		address pAddress;
 	}
 
 	// State Variables
-	mapping(address => uint256) public playerRating;
+	mapping(address => uint32) public playerRating;
 
 	// Events: a way to emit log statements from smart contract that can be listened to by external parties
-	event newPublishedRating(address playerSender, uint256 rating, bool winner);
+	event newPublishedRating(address playerSender, uint32 rating, bool winner);
 
 	// TODO: Check the contract call for valid input
 
 	function updatePlayerRating(
 		address _winnerAddress,
 		address _loserAddress,
-		uint256 _winnerRating,
-		uint256 _loserRating
+		uint32 _winnerRating,
+		uint32 _loserRating
 	) public {
 		// Print data to the hardhat chain console. Remove when deploying to a live network.
 		console.log(

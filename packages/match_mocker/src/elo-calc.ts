@@ -4,6 +4,6 @@ export function calculate(winnerRating: number, loserRating: number): EloCalcula
   // TODO: actually calculating ELO https://github.com/pingwin-org/pingwin/blob/master/backend/src/elo.js
   return {
     winner: 1,
-    loser: 1
+    loser: -1
   };
 };

@@ -21,7 +21,7 @@ export async function registerMatch(player1: Player, player2: Player) {
     address: c.address,
     abi: c.abi,
     functionName: 'updatePlayerRating',
-    args: [player1.id, player1.rating, player2.id, player2.rating],
+    args: [player1.id, player2.id, player1.rating, player2.rating],
     //value: parseEther('100', 'wei')
   });
     await gameServerWallet.writeContract(request);
