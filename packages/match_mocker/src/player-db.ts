@@ -10,6 +10,7 @@ function getRandomInt(max: number) {
 }
 export function init(nbrOfPlayers: number = DEFAULT_NUMBER_OF_PLAYERS) {
   while (player_ids.length < nbrOfPlayers) {
+    // TODO: get hardhat accounts
     const account = privateKeyToAccount(generatePrivateKey());
     const p = {
       id: account.address,
