@@ -14,7 +14,7 @@ contract ScoreSage {
 	mapping(address => uint32) public playerRating;
 
 	// Events: a way to emit log statements from smart contract that can be listened to by external parties
-	event newPublishedRating(address playerSender, uint32 rating, bool winner);
+	event newPublishedRating(address player, uint32 rating, bool winner);
 
 	// TODO: Check the contract call for valid input
 
@@ -42,6 +42,6 @@ contract ScoreSage {
 
 		// emit: keyword used to trigger an event
 		emit newPublishedRating(_winnerAddress, _winnerRating, true);
-		emit newPublishedRating(_loserAddress, _loserRating, true);
+		emit newPublishedRating(_loserAddress, _loserRating, false);
 	}
 }
