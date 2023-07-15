@@ -5,14 +5,16 @@
   "workspaces": {
     "packages": [
       "packages/hardhat",
-      "packages/nextjs"
+      "packages/nextjs",
+      "packages/services",
+      "packages/subgraph"
     ]
   },
   "scripts": {
     "account": "yarn workspace @se-2/hardhat account",
     "chain": "yarn workspace @se-2/hardhat chain",
     "fork": "yarn workspace @se-2/hardhat fork",
-    "deploy": "yarn workspace @se-2/hardhat deploy",
+    "deploy": "yarn workspace @se-2/hardhat deploy && yarn workspace @se-2/hardhat postdeploy",
     "verify": "yarn workspace @se-2/hardhat verify",
     "compile": "yarn workspace @se-2/hardhat compile",
     "generate": "yarn workspace @se-2/hardhat generate",
@@ -26,7 +28,17 @@
     "postinstall": "husky install",
     "precommit": "lint-staged",
     "vercel": "yarn workspace @se-2/nextjs vercel",
-    "vercel:yolo": "yarn workspace @se-2/nextjs vercel:yolo"
+    "vercel:yolo": "yarn workspace @se-2/nextjs vercel:yolo",
+    "run-graph-node": "yarn workspace @se-2/services run-graph-node",
+    "remove-graph-node": "yarn workspace @se-2/services remove-graph-node",
+    "clean-graph-node": "yarn workspace @se-2/services clean-graph-node",
+    "graph-codegen": "yarn workspace @se-2/subgraph graph codegen",
+    "graph-build": "yarn workspace @se-2/subgraph graph build",
+    "graph-create-local": "yarn workspace @se-2/subgraph graph create --node http://localhost:8020/ scaffold-eth/your-contract",
+    "graph-remove-local": "yarn workspace @se-2/subgraph graph remove --node http://localhost:8020/ scaffold-eth/your-contract",
+    "graph-ship-local": "yarn graph-codegen && yarn graph-build --network localhost && yarn graph-deploy-local",
+    "graph-deploy-local": "yarn workspace @se-2/subgraph graph deploy --node http://127.0.0.1:8020/ --ipfs http://localhost:5001 scaffold-eth/your-contract",
+    "deploy-and-graph": "yarn deploy && yarn graph-ship-local"
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
