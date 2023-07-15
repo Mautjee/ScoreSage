@@ -11,3 +11,9 @@ node_modules
 .eslintcache
 .vscode/**
 .DS_Store
+packages/subgraph/abis/
+packages/subgraph/build/
+packages/subgraph/generated/
+packages/services/graph-node/data/
+packages/nextjs/generated/
+packages/nextjs/generated
