@@ -1,4 +1,3 @@
-import { MATCH_FREQUENCY } from "./constants";
 import { calculate as calcElo } from "./elo-calc";
 import { generateMatchResult } from "./generator";
 import {
@@ -35,8 +34,7 @@ async function mock_match() {
       }
     );
 
-    // TODO: send proof to chain
-    await registerMatch(newPlayers.player1, newPlayers.player2);
+    await registerMatch(newPlayers.player1, newPlayers.player2, proof, {p1: player1.rating, p2: player2.rating});
 }
 
 async function start() {

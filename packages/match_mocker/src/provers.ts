@@ -1,6 +1,7 @@
 import { spawn } from "child_process";
 import { readFile, writeFile } from "fs/promises";
 import path from "path";
+import {Proof} from "./types";
 
 const CIRCUITS_PATH = path.join(__dirname, "../circuits/noir");
 
@@ -35,9 +36,9 @@ const getProverToml = (parsedArgs: any) => {
   return toml;
 };
 
-async function logProof(proof: string) {
-  console.log("✅ here is the proof in byte32...\n0x" + proof);
-}
+// async function logProof(proof: string) {
+//   console.log("✅ here is the proof in byte32...\n" + proof);
+// }
 
 async function logPublicInputs(circuitName: string) {
   const p = path.join(CIRCUITS_PATH, `${circuitName}/Verifier.toml`);
@@ -60,10 +61,10 @@ async function generateProof(circuitName: string, parsedArgs?: any) {
   console.log("🧠 generating proof...");
   const res = await spawnChild("nargo", ["prove"], {
     cwd,
-  });
-  logProof(res);
+  }) as Proof;
   logPublicInputs(circuitName);
-  return res;
+
+  return "0x" + res.replace("\n", "") as `0x${string}`;
 }
 
 export function noirEloProver(
@@ -75,7 +76,7 @@ export function noirEloProver(
     p1: number;
     p2: number;
   }
-) {
+): Promise<Proof> {
   return generateProof("ValidEloCalculation", {
     oldWinnerRating: oldRatings.p1,
     newWinnerRating: newRatings.p1,
