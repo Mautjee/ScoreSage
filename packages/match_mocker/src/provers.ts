@@ -1,4 +1,3 @@
-import { EloCalculationResult, MatchResult } from "./types";
 import { spawn } from "child_process";
 import { readFile, writeFile } from "fs/promises";
 import path from "path";
