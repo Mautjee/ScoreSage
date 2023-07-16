@@ -1,0 +1,5 @@
+*Prover.toml
+*Verifier.toml
+*plonk_vk.sol
+circuits/**/target*
+circuits/**/proofs*

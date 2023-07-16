@@ -49,7 +49,7 @@
 //     //assert(loserGains == -16);
 // }
 
-fn main(oldWinnerRating: u32, newWinnerRating: u32, oldLoserRating: u32, newLoserRating: u32) {
+fn main(oldWinnerRating: pub u32, newWinnerRating: pub u32, oldLoserRating: pub u32, newLoserRating: pub u32) {
     // TODO: make proper ELO-calculation like above-ish
     assert(oldWinnerRating < newWinnerRating);
     assert(oldLoserRating > newLoserRating);

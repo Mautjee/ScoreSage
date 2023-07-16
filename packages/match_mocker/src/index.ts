@@ -13,19 +13,7 @@ import {
 } from "./chain-ingestor";
 import { noirEloProver } from "./provers";
 
-async function start() {
-  let prom;
-  let resolve = (value?: unknown) => {};
-  initDb();
-  await initChainIngestor();
-
-  while (true) {
-    prom = new Promise((r) => {
-      resolve = r;
-    });
-    setTimeout(() => resolve(), MATCH_FREQUENCY);
-    await prom;
-
+async function mock_match() {
     // TODO: maybe get the rating from chain?
     const { player1, player2 } = getTwoRandomPlayers();
 
@@ -36,9 +24,27 @@ async function start() {
     );
     const newPlayers = updateDb(matchRes, eloGains);
 
-    const proof = await noirEloProver(matchRes, eloGains);
-    await registerMatch(newPlayers.player1, newPlayers.player2);
+    const proof = await noirEloProver(
+      {
+        p1: player1.rating,
+        p2: player2.rating,
+      },
+      {
+        p1: newPlayers.player1.rating,
+        p2: newPlayers.player2.rating,
+      }
+    );
 
+    // TODO: send proof to chain
+    await registerMatch(newPlayers.player1, newPlayers.player2);
+}
+
+async function start() {
+  initDb();
+  await initChainIngestor();
+
+  while (true) {
+      await mock_match();
   }
 }
 
