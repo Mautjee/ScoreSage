@@ -36,10 +36,10 @@
     "clean-graph-node": "yarn workspace @se-2/services clean-graph-node",
     "graph-codegen": "yarn workspace @se-2/subgraph graph codegen",
     "graph-build": "yarn workspace @se-2/subgraph graph build",
-    "graph-create-local": "yarn workspace @se-2/subgraph graph create --node http://localhost:8020/ scaffold-eth/your-contract",
-    "graph-remove-local": "yarn workspace @se-2/subgraph graph remove --node http://localhost:8020/ scaffold-eth/your-contract",
+    "graph-create-local": "yarn workspace @se-2/subgraph graph create --node http://localhost:8020/ scaffold-eth/score-sage",
+    "graph-remove-local": "yarn workspace @se-2/subgraph graph remove --node http://localhost:8020/ scaffold-eth/score-sage",
     "graph-ship-local": "yarn graph-codegen && yarn graph-build --network localhost && yarn graph-deploy-local",
-    "graph-deploy-local": "yarn workspace @se-2/subgraph graph deploy --node http://127.0.0.1:8020/ --ipfs http://localhost:5001 scaffold-eth/your-contract",
+    "graph-deploy-local": "yarn workspace @se-2/subgraph graph deploy --node http://127.0.0.1:8020/ --ipfs http://localhost:5001 scaffold-eth/score-sage",
     "deploy-and-graph": "yarn deploy && yarn graph-ship-local"
   },
   "packageManager": "yarn@3.2.3",

@@ -11,14 +11,20 @@ contract ScoreSage {
 	}
 
 	// State Variables
-	mapping(address => uint32) public playerRating;
+	mapping(uint32 => mapping(address => uint32)) public gameRatings;
 
 	// Events: a way to emit log statements from smart contract that can be listened to by external parties
-	event newPublishedRating(address player, uint32 rating, bool winner);
+	event newPublishedRating(
+		uint32 indexed gameId,
+		address indexed player,
+		uint32 rating,
+		bool winner
+	);
 
 	// TODO: Check the contract call for valid input
 
 	function updatePlayerRating(
+		uint32 _gameId,
 		address _winnerAddress,
 		address _loserAddress,
 		uint32 _winnerRating,
@@ -37,11 +43,11 @@ contract ScoreSage {
 		);
 
 		// Change state variables
-		playerRating[_winnerAddress] = _winnerRating;
-		playerRating[_loserAddress] = _loserRating;
+		gameRatings[_gameId][_winnerAddress] = _winnerRating;
+		gameRatings[_gameId][_loserAddress] = _loserRating;
 
 		// emit: keyword used to trigger an event
-		emit newPublishedRating(_winnerAddress, _winnerRating, true);
-		emit newPublishedRating(_loserAddress, _loserRating, false);
+		emit newPublishedRating(_gameId, _winnerAddress, _winnerRating, true);
+		emit newPublishedRating(_gameId, _loserAddress, _loserRating, false);
 	}
 }

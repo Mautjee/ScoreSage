@@ -5,6 +5,7 @@ export type Player = {
 };
 
 export type MatchResult = {
+  gameId: number;
   winner: Player["id"];
   loser: Player["id"];
   timestamp: number;
@@ -15,7 +16,6 @@ export type MatchResult = {
 };
 
 export type EloCalculationResult = {
-  winner: number,
-  loser: number
+  winner: number;
+  loser: number;
 };
-

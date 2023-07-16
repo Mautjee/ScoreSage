@@ -21,6 +21,7 @@ export function generateMatchResult(p1: Player, p2: Player): MatchResult {
   const p1IsWinner = score.player1 >= score.player2;
 
   const result: MatchResult = {
+    gameId: getRandomInt(5),
     score,
     timestamp: Date.now(),
     winner: p1IsWinner ? p1.id : p2.id,

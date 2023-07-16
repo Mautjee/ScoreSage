@@ -11,6 +11,7 @@ export function handlePublishedRating(event: newPublishedRating): void {
     player.address = event.params.player;
     player.createdAt = event.block.timestamp;
     player.rating = event.params.rating;
+    player.gameId = event.params.gameId;
     player.gamesWon = 0;
     player.gamesLost = 0;
   } else {

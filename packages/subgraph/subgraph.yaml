@@ -7,7 +7,7 @@ dataSources:
     network: localhost
     source:
       abi: ScoreSage
-      address: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -19,6 +19,6 @@ dataSources:
         - name: ScoreSage
           file: ./abis/localhost_ScoreSage.json
       eventHandlers:
-        - event: newPublishedRating(address,uint32,bool)
+        - event: newPublishedRating(indexed uint32,indexed address,uint32,bool)
           handler: handlePublishedRating
       file: ./src/mapping.ts

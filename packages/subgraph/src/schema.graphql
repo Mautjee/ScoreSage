@@ -1,8 +1,32 @@
 type Player @entity {
   id: ID!
+  gameId: BigInt!
   address: Bytes!
   rating: BigInt!
   createdAt: BigInt!
   gamesWon: Int!
   gamesLost: Int!
 }
+
+# "Player object is used to store player information"
+# type Player @entity {
+#   id: ID!
+#   "Ethereum Address of the player"
+#   address: Bytes!
+#   "Games played by the player"
+#   games: [PlayerRanking!] @derivedFrom(field: "player")
+# }
+
+# type Game @entity {
+#   id: ID!
+#   "Id of the game"
+#   gameId: String!
+#   "Score of the player in the game"
+#   score: Int!
+#   "Address of the player in the game"
+#   players: [PlayerRanking!] @derivedFrom(field: "game")
+#   "Name of the game"
+#   name: String!
+#   "Description of the game"
+#   description: String!
+# }

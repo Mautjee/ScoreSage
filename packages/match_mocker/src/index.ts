@@ -8,10 +8,7 @@ import {
   updateRating,
 } from "./player-db";
 
-import {
-  init as initChainIngestor,
-  registerMatch
-} from "./chain-ingestor";
+import { init as initChainIngestor, registerMatch } from "./chain-ingestor";
 
 async function start() {
   let prom;
@@ -36,7 +33,11 @@ async function start() {
     );
 
     const newPlayers = updateRating(matchRes, eloGains);
-    await registerMatch(newPlayers.player1, newPlayers.player2);
+    await registerMatch(
+      matchRes.gameId,
+      newPlayers.player1,
+      newPlayers.player2
+    );
 
     // TODO: verify ELO-rating calculation in circuit
   }
