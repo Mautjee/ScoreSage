@@ -34,10 +34,11 @@ export async function init() {
 }
 
 export async function registerMatch(
-  player1: Player,
-  player2: Player,
+  winner: Player,
+  loser: Player,
   proof: Proof,
-  temp: { p1: number; p2: number }
+  // TODO: below should already be on chain
+  temp: { w: number; l: number }
 ) {
   // TODO: configurable actual chain
   const c = contracts[hardhat.id][0].contracts.ScoreSage;
@@ -45,12 +46,11 @@ export async function registerMatch(
     address: c.address,
     abi: c.abi,
     functionName: "updatePlayerRating",
-    args: [player1.id, player2.id, player1.rating, player2.rating],
-    //value: parseEther('100', 'wei')
+    args: [winner.id, loser.id, winner.rating, loser.rating],
   });
   await gameServerWallet.writeContract(request);
 
-  const publicInputs = [player1.rating, player2.rating, temp.p1, temp.p2].map(
+  const publicInputs = [temp.w, winner.rating, temp.l, loser.rating].map(
     (x) => toHex(x, { size: 32 })
   );
   const validatorContract =
