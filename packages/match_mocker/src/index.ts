@@ -5,13 +5,13 @@ import {
   init as initDb,
   getTwoRandomPlayers,
   getPlayerRating,
-  updateRating,
+  updateRating as updateDb,
 } from "./player-db";
-
 import {
   init as initChainIngestor,
   registerMatch
 } from "./chain-ingestor";
+import { noirEloProver } from "./provers";
 
 async function start() {
   let prom;
@@ -34,11 +34,11 @@ async function start() {
       getPlayerRating(matchRes.winner),
       getPlayerRating(matchRes.loser)
     );
+    const newPlayers = updateDb(matchRes, eloGains);
 
-    const newPlayers = updateRating(matchRes, eloGains);
+    const proof = await noirEloProver(matchRes, eloGains);
     await registerMatch(newPlayers.player1, newPlayers.player2);
 
-    // TODO: verify ELO-rating calculation in circuit
   }
 }
 
