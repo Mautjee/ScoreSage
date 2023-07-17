@@ -1,4 +1,22 @@
-# 🏗 Scaffold-ETH 2
+# Score Sage
+
+Leaderboards are at the heart of every competitive game. It's the place that validate the hard effort of dedicated players. It can also be used as source of truth for organising events like tournaments where only the top players are allowed to participate.
+
+We propose a **Universal Verifiable Leaderboard Oracle**.
+
+**Universal**: the system is capable of ingesting match outcome information from different sources as long as the game engine generating the results of a match can provide a zk proof of that computation.
+
+**Verifiable**: at ingestion time the system will verify the provided proof using the same verification system that the given game engine uses. Only verified information will be stored on-chain. Ultimately we can store the proof accompanying every transaction to be audited at any given time.
+
+**Oracle**: we rely on zk verification to ensure the soundness of the data provided by the leaderboard. The rating information lives on-chain so it can be consumed by any smart contract. can be consumed on-chain
+
+**ScoreSage** also stores verifiable information off-chain. A graphQL API layer provide a scalable solution to consume verified player rating information without incurring in high costs.
+
+Independent communities can consume rating information for their own needs at low cost with out loosing the trust in the data they are querying.
+
+---
+
+## 🏗 Scaffold-ETH 2
 
 🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
 
@@ -10,16 +28,25 @@
 
 ## Contents
 
-- [Requirements](#requirements)
-- [Quickstart](#quickstart)
-- [Deploying your Smart Contracts to a Live Network](#deploying-your-smart-contracts-to-a-live-network)
-- [Deploying your NextJS App](#deploying-your-nextjs-app)
-- [Interacting with your Smart Contracts: SE-2 Custom Hooks](#interacting-with-your-smart-contracts-se-2-custom-hooks)
-- [Disabling Type & Linting Error Checks](#disabling-type-and-linting-error-checks)
-  - [Disabling commit checks](#disabling-commit-checks)
-  - [Deploying to Vercel without any checks](#deploying-to-vercel-without-any-checks)
-  - [Disabling Github Workflow](#disabling-github-workflow)
-- [Contributing to Scaffold-ETH 2](#contributing-to-scaffold-eth-2)
+- [Score Sage](#score-sage)
+  - [🏗 Scaffold-ETH 2](#-scaffold-eth-2)
+  - [Contents](#contents)
+  - [Requirements](#requirements)
+  - [Quickstart](#quickstart)
+  - [Deploying your Smart Contracts to a Live Network](#deploying-your-smart-contracts-to-a-live-network)
+  - [Deploying your NextJS App](#deploying-your-nextjs-app)
+  - [Interacting with your Smart Contracts: SE-2 Custom Hooks](#interacting-with-your-smart-contracts-se-2-custom-hooks)
+    - [useScaffoldContractRead:](#usescaffoldcontractread)
+    - [useScaffoldContractWrite:](#usescaffoldcontractwrite)
+    - [useScaffoldEventSubscriber:](#usescaffoldeventsubscriber)
+    - [useScaffoldEventHistory:](#usescaffoldeventhistory)
+    - [useDeployedContractInfo:](#usedeployedcontractinfo)
+    - [useScaffoldContract:](#usescaffoldcontract)
+  - [Disabling type and linting error checks](#disabling-type-and-linting-error-checks)
+    - [Disabling commit checks](#disabling-commit-checks)
+    - [Deploying to Vercel without any checks](#deploying-to-vercel-without-any-checks)
+    - [Disabling Github Workflow](#disabling-github-workflow)
+  - [Contributing to Scaffold-ETH 2](#contributing-to-scaffold-eth-2)
 
 ## Requirements
 
