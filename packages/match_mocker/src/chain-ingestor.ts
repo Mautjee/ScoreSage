@@ -17,76 +17,10 @@ import {
 import { privateKeyToAccount } from "viem/accounts";
 import { hardhat } from "viem/chains";
 import contracts from "../generated/deployedContracts";
-import { Player, Proof } from "./types";
+import { MatchResult, Player, Proof } from "./types";
 
 // TODO: better type
-let gameServerWallet: Client<
-  HttpTransport,
-  {
-    readonly id: 31337;
-    readonly name: "Hardhat";
-    readonly network: "hardhat";
-    readonly nativeCurrency: {
-      readonly decimals: 18;
-      readonly name: "Ether";
-      readonly symbol: "ETH";
-    };
-    readonly rpcUrls: {
-      readonly default: { readonly http: readonly ["http://127.0.0.1:8545"] };
-      readonly public: { readonly http: readonly ["http://127.0.0.1:8545"] };
-    };
-  } & {
-    formatters: Formatters | undefined;
-    serializers: Serializers<Formatters> | undefined;
-  },
-  PrivateKeyAccount,
-  WalletRpcSchema,
-  WalletActions<
-    {
-      readonly id: 31337;
-      readonly name: "Hardhat";
-      readonly network: "hardhat";
-      readonly nativeCurrency: {
-        readonly decimals: 18;
-        readonly name: "Ether";
-        readonly symbol: "ETH";
-      };
-      readonly rpcUrls: {
-        readonly default: { readonly http: readonly ["http://127.0.0.1:8545"] };
-        readonly public: { readonly http: readonly ["http://127.0.0.1:8545"] };
-      };
-    } & {
-      formatters: Formatters | undefined;
-      serializers: Serializers<Formatters> | undefined;
-    },
-    PrivateKeyAccount
-  > &
-    PublicActions<
-      Transport<string, Record<string, any>, EIP1193RequestFn<undefined>>,
-      {
-        readonly id: 31337;
-        readonly name: "Hardhat";
-        readonly network: "hardhat";
-        readonly nativeCurrency: {
-          readonly decimals: 18;
-          readonly name: "Ether";
-          readonly symbol: "ETH";
-        };
-        readonly rpcUrls: {
-          readonly default: {
-            readonly http: readonly ["http://127.0.0.1:8545"];
-          };
-          readonly public: {
-            readonly http: readonly ["http://127.0.0.1:8545"];
-          };
-        };
-      } & {
-        formatters: Formatters | undefined;
-        serializers: Serializers<Formatters> | undefined;
-      },
-      PrivateKeyAccount
-    >
->;
+let gameServerWallet: Client<HttpTransport, {readonly id: 31337; readonly name: "Hardhat"; readonly network: "hardhat"; readonly nativeCurrency: {readonly decimals: 18; readonly name: "Ether"; readonly symbol: "ETH";}; readonly rpcUrls: {readonly default: {readonly http: readonly ["http://127.0.0.1:8545"];}; readonly public: {readonly http: readonly ["http://127.0.0.1:8545"];};};} & {formatters: Formatters | undefined; serializers: Serializers<Formatters> | undefined;}, PrivateKeyAccount, WalletRpcSchema, WalletActions<{readonly id: 31337; readonly name: "Hardhat"; readonly network: "hardhat"; readonly nativeCurrency: {readonly decimals: 18; readonly name: "Ether"; readonly symbol: "ETH";}; readonly rpcUrls: {readonly default: {readonly http: readonly ["http://127.0.0.1:8545"];}; readonly public: {readonly http: readonly ["http://127.0.0.1:8545"];};};} & {formatters: Formatters | undefined; serializers: Serializers<Formatters> | undefined;}, PrivateKeyAccount> & PublicActions<Transport<string, Record<string, any>, EIP1193RequestFn<undefined>>, {readonly id: 31337; readonly name: "Hardhat"; readonly network: "hardhat"; readonly nativeCurrency: {readonly decimals: 18; readonly name: "Ether"; readonly symbol: "ETH";}; readonly rpcUrls: {readonly default: {readonly http: readonly ["http://127.0.0.1:8545"];}; readonly public: {readonly http: readonly ["http://127.0.0.1:8545"];};};} & {formatters: Formatters | undefined; serializers: Serializers<Formatters> | undefined;}, PrivateKeyAccount>>;
 
 export async function init() {
   // TODO: not hardcoding server wallet
@@ -100,12 +34,10 @@ export async function init() {
 }
 
 export async function registerMatch(
-  gameId: number,
+  matchRes: MatchResult,
   winner: Player,
   loser: Player,
   proof: Proof,
-  // TODO: below should already be on chain
-  temp: { w: number; l: number }
 ) {
   // TODO: configurable actual chain
   const c = contracts[hardhat.id][0].contracts.ScoreSage;
@@ -113,20 +45,7 @@ export async function registerMatch(
     address: c.address,
     abi: c.abi,
     functionName: "updatePlayerRating",
-    args: [gameId, winner.id, loser.id, winner.rating, loser.rating],
+    args: [matchRes.gameId, winner.id, loser.id, winner.rating, loser.rating, proof],
   });
   await gameServerWallet.writeContract(request);
-
-  const publicInputs = [temp.w, winner.rating, temp.l, loser.rating].map((x) =>
-    toHex(x, { size: 32 })
-  );
-  const validatorContract =
-    contracts[hardhat.id][0].contracts.VerifierValidEloCalculation;
-
-  await gameServerWallet.readContract({
-    address: validatorContract.address,
-    abi: validatorContract.abi,
-    functionName: "verify",
-    args: [proof, publicInputs],
-  });
 }

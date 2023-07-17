@@ -5,7 +5,7 @@ export type Player = {
 };
 
 export type MatchResult = {
-  gameId: number;
+  gameId: string;
   winner: Player["id"];
   loser: Player["id"];
   timestamp: number;

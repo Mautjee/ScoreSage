@@ -69,18 +69,18 @@ async function generateProof(circuitName: string, parsedArgs?: any) {
 
 export function noirEloProver(
   oldRatings: {
-    p1: number;
-    p2: number;
+    winner: number;
+    loser: number;
   },
   newRatings: {
-    p1: number;
-    p2: number;
+    winner: number;
+    loser: number;
   }
 ): Promise<Proof> {
   return generateProof("ValidEloCalculation", {
-    oldWinnerRating: oldRatings.p1,
-    newWinnerRating: newRatings.p1,
-    oldLoserRating: oldRatings.p2,
-    newLoserRating: newRatings.p2,
+    oldWinnerRating: oldRatings.winner,
+    newWinnerRating: newRatings.winner,
+    oldLoserRating: oldRatings.loser,
+    newLoserRating: newRatings.loser,
   });
 }

@@ -12,6 +12,11 @@ function generateScore(p: Player): number {
   return getRandomInt(SCORE_CAP) + p.skill;
 }
 
+function generateGameId(): string {
+  // TODO: player rating separated per game
+  return `game-${getRandomInt(5)}`;
+};
+
 export function generateMatchResult(p1: Player, p2: Player): MatchResult {
   const score = {
     player1: generateScore(p1),
@@ -21,7 +26,7 @@ export function generateMatchResult(p1: Player, p2: Player): MatchResult {
   const p1IsWinner = score.player1 >= score.player2;
 
   const result: MatchResult = {
-    gameId: getRandomInt(5),
+    gameId: generateGameId(),
     score,
     timestamp: Date.now(),
     winner: p1IsWinner ? p1.id : p2.id,

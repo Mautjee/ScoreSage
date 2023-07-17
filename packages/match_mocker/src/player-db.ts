@@ -22,8 +22,8 @@ export function init(nbrOfPlayers: number = DEFAULT_NUMBER_OF_PLAYERS) {
   }
 }
 
-export function getPlayerRating(id: Player["id"]) {
-  return player_db[id].rating;
+export function getPlayer(id: Player["id"]) {
+  return {...player_db[id]};
 }
 
 export function getTwoRandomPlayers() {
@@ -33,8 +33,8 @@ export function getTwoRandomPlayers() {
     index2 = getRandomInt(player_ids.length);
   }
   return {
-    player1: {...player_db[player_ids[index1]]},
-    player2: {...player_db[player_ids[index2]]},
+    player1: getPlayer(player_ids[index1]),
+    player2: getPlayer(player_ids[index2]),
   };
 }
 
@@ -48,8 +48,4 @@ export function updateRating(
     throw new Error(`Can't find loser ${matchResult.loser}`);
   player_db[matchResult.winner].rating += eloGains.winner;
   player_db[matchResult.loser].rating += eloGains.loser;
-  return {
-    player1: player_db[matchResult.winner],
-    player2: player_db[matchResult.loser],
-  };
 }
