@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "test": "mocha --require ts-node/register --require dotenv/config --timeout 10000 --exit --recursive ./test/**/*.ts"
+    "test": "mocha --require ts-node/register --require dotenv/config --timeout 10000 --exit --recursive ./test/**/*.ts",
+    "noir-new": "nargo new circuits/noir/$@",
+    "noir-test": "cd $@; nargo test",
+    "export-solidity": "./scripts/export_sol_verifiers.sh"
   },
   "dependencies": {
     "dotenv": "^16.0.3",

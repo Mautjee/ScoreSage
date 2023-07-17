@@ -5,19 +5,19 @@ import {
   Formatters,
   http,
   HttpTransport,
-  parseEther,
   PrivateKeyAccount,
   PublicActions,
   publicActions,
   Serializers,
+  toHex,
   Transport,
   WalletActions,
   WalletRpcSchema,
 } from "viem";
-import { Player } from "./types";
-import { hardhat } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
+import { hardhat } from "viem/chains";
 import contracts from "../generated/deployedContracts";
+import { Player, Proof } from "./types";
 
 // TODO: better type
 let gameServerWallet: Client<
@@ -101,17 +101,32 @@ export async function init() {
 
 export async function registerMatch(
   gameId: number,
-  player1: Player,
-  player2: Player
+  winner: Player,
+  loser: Player,
+  proof: Proof,
+  // TODO: below should already be on chain
+  temp: { w: number; l: number }
 ) {
-  // TODO: configurable chain
+  // TODO: configurable actual chain
   const c = contracts[hardhat.id][0].contracts.ScoreSage;
   const { request } = await gameServerWallet.simulateContract({
     address: c.address,
     abi: c.abi,
     functionName: "updatePlayerRating",
-    args: [gameId, player1.id, player2.id, player1.rating, player2.rating],
-    //value: parseEther('100', 'wei')
+    args: [gameId, winner.id, loser.id, winner.rating, loser.rating],
   });
   await gameServerWallet.writeContract(request);
+
+  const publicInputs = [temp.w, winner.rating, temp.l, loser.rating].map((x) =>
+    toHex(x, { size: 32 })
+  );
+  const validatorContract =
+    contracts[hardhat.id][0].contracts.VerifierValidEloCalculation;
+
+  await gameServerWallet.readContract({
+    address: validatorContract.address,
+    abi: validatorContract.abi,
+    functionName: "verify",
+    args: [proof, publicInputs],
+  });
 }

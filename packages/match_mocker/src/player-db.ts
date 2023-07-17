@@ -1,6 +1,6 @@
 import { DEFAULT_NUMBER_OF_PLAYERS, SKILL_CAP } from "./constants";
 import { EloCalculationResult, MatchResult, Player } from "./types";
-import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
+import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
 const player_ids: Player["id"][] = [];
 const player_db: Record<Player["id"], Player> = {};
@@ -27,9 +27,14 @@ export function getPlayerRating(id: Player["id"]) {
 }
 
 export function getTwoRandomPlayers() {
+  let index1 = getRandomInt(player_ids.length);
+  let index2 = index1;
+  while (index1 === index2) {
+    index2 = getRandomInt(player_ids.length);
+  }
   return {
-    player1: player_db[player_ids[getRandomInt(player_ids.length)]],
-    player2: player_db[player_ids[getRandomInt(player_ids.length)]],
+    player1: {...player_db[player_ids[index1]]},
+    player2: {...player_db[player_ids[index2]]},
   };
 }
 

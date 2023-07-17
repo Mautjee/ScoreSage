@@ -19,3 +19,5 @@ export type EloCalculationResult = {
   winner: number;
   loser: number;
 };
+
+export type Proof = `0x${string}`;
