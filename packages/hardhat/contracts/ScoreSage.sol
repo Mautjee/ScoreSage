@@ -49,13 +49,14 @@ contract ScoreSage {
 
                 assert(verifier.verify(_proof, publicInputs));
 		// Print data to the hardhat chain console. Remove when deploying to a live network.
+                console.log("Game ID: '%s'", _gameId);
 		console.log(
-			"Changing the winner rating: '%s' of %s ",
+			"WINNER: '%s' > %s ",
 			_winnerRating,
 			_winnerAddress
 		);
 		console.log(
-			"Changing the loser rating: '%s' of %s",
+			"LOSER: '%s' > %s",
 			_loserRating,
 			_loserAddress
 		);

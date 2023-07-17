@@ -6,7 +6,14 @@ import {
 import { EloCalculationResult, GameId, MatchResult, Player } from "./types";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
-const game_ids: GameId[] = [];
+const game_ids: GameId[] = [
+  "Chess",
+  "Poker",
+  "Starcraft",
+  "Street Fighter",
+  "League of Legends",
+];
+
 const player_ids: Player["id"][] = [];
 const player_db: Record<GameId, Record<Player["id"], Player>> = {};
 
@@ -20,9 +27,7 @@ export function init(nbrOfPlayers: number = DEFAULT_NUMBER_OF_PLAYERS) {
     player_ids.push(account.address);
   }
 
-  while (game_ids.length < DEFAULT_NUMBER_OF_GAMES) {
-    const gameId: GameId = `game-${game_ids.length + 1}`;
-    game_ids.push(gameId);
+  for (const gameId of game_ids) {
     player_db[gameId] = {};
     for (const id of player_ids) {
       const p = {

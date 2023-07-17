@@ -38,8 +38,6 @@ async function mock_match() {
       loser: newPlayers.loser.rating,
     },
   );
-  console.log(JSON.stringify({ player1, player2 }));
-  console.log(JSON.stringify(newPlayers));
 
   await registerMatch(matchRes, newPlayers.winner, newPlayers.loser, proof);
 }

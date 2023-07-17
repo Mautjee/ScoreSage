@@ -20,5 +20,5 @@ export type EloCalculationResult = {
   loser: number;
 };
 
-export type GameId = `game-${number}`;
+export type GameId = string;
 export type Proof = `0x${string}`;

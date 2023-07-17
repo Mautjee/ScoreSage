@@ -31,7 +31,6 @@ async function spawnChild(name: string, args?: any, options?: any) {
 const getProverToml = (parsedArgs: any) => {
   let toml = "";
   for (const [key, value] of Object.entries(parsedArgs)) {
-    console.log(key, value);
     toml += `${key} = ${JSON.stringify(value)}\n`;
   }
   return toml;
