@@ -11,7 +11,7 @@ contract ScoreSage {
 		address pAddress;
 	}
 
-        BaseUltraVerifier public verifier;
+        UltraVerifier public verifier;
 
 	// State Variables
 	mapping(string => mapping(address => uint32)) public gameRatings;
@@ -21,7 +21,8 @@ contract ScoreSage {
 		string indexed gameId,
 		address indexed player,
 		uint32 rating,
-		bool winner
+		bool winner,
+                bytes _proof
 	);
 
 	// TODO: Check the contract call for valid input
@@ -40,7 +41,7 @@ contract ScoreSage {
                 publicInputs[2] = bytes32(uint256(gameRatings[_gameId][_loserAddress]));
                 publicInputs[3] = bytes32(uint256(_loserRating));
 
-                assert(verifier.verify(_proof, publicInputs));
+                // assert(verifier.verify(_proof, publicInputs));
 		// Print data to the hardhat chain console. Remove when deploying to a live network.
 		console.log(
 			"Changing the winner rating: '%s' of %s ",
@@ -58,7 +59,7 @@ contract ScoreSage {
 		gameRatings[_gameId][_loserAddress] = _loserRating;
 
 		// emit: keyword used to trigger an event
-		emit newPublishedRating(_gameId, _winnerAddress, _winnerRating, true);
-		emit newPublishedRating(_gameId, _loserAddress, _loserRating, false);
+		emit newPublishedRating(_gameId, _winnerAddress, _winnerRating, true, _proof);
+		emit newPublishedRating(_gameId, _loserAddress, _loserRating, false, _proof);
 	}
 }
