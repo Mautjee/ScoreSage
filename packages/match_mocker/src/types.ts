@@ -5,7 +5,7 @@ export type Player = {
 };
 
 export type MatchResult = {
-  gameId: string;
+  gameId: GameId;
   winner: Player["id"];
   loser: Player["id"];
   timestamp: number;
@@ -20,4 +20,5 @@ export type EloCalculationResult = {
   loser: number;
 };
 
+export type GameId = `game-${number}`;
 export type Proof = `0x${string}`;

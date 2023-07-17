@@ -31,6 +31,7 @@ async function spawnChild(name: string, args?: any, options?: any) {
 const getProverToml = (parsedArgs: any) => {
   let toml = "";
   for (const [key, value] of Object.entries(parsedArgs)) {
+    console.log(key, value);
     toml += `${key} = ${JSON.stringify(value)}\n`;
   }
   return toml;
@@ -50,7 +51,7 @@ async function logPublicInputs(circuitName: string) {
       publicInputs.push(JSON.parse(input));
     }
   }
-  console.log("🔍 public inputs\n" + JSON.stringify(publicInputs));
+  console.log("🔍 public inputs\n" + JSON.stringify(publicInputs, null, 2));
 }
 
 async function generateProof(circuitName: string, parsedArgs?: any) {
@@ -62,7 +63,7 @@ async function generateProof(circuitName: string, parsedArgs?: any) {
   const res = await spawnChild("nargo", ["prove"], {
     cwd,
   }) as Proof;
-  logPublicInputs(circuitName);
+  await logPublicInputs(circuitName);
 
   return "0x" + res.replace("\n", "") as `0x${string}`;
 }

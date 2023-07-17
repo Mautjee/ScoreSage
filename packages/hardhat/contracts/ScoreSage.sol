@@ -47,11 +47,6 @@ contract ScoreSage {
                 publicInputs[2] = bytes32(uint256(gameRatings[_gameId][_loserAddress]));
                 publicInputs[3] = bytes32(uint256(_loserRating));
 
-                console.logBytes32(publicInputs[0]);
-                console.logBytes32(publicInputs[1]);
-                console.logBytes32(publicInputs[2]);
-                console.logBytes32(publicInputs[3]);
-
                 assert(verifier.verify(_proof, publicInputs));
 		// Print data to the hardhat chain console. Remove when deploying to a live network.
 		console.log(

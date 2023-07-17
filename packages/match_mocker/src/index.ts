@@ -2,65 +2,44 @@ import { calculate as calcElo } from "./elo-calc";
 import { generateMatchResult } from "./generator";
 import {
   init as initDb,
-  getTwoRandomPlayers,
+  getMatchMaking,
   updateRating as updateDb,
   getPlayer,
 } from "./player-db";
 import { init as initChainIngestor, registerMatch } from "./chain-ingestor";
 import { noirEloProver } from "./provers";
-import { MatchResult } from "./types";
-
-function getOldNewRating(
-  matchRes: MatchResult,
-  oldPlayers: any,
-  newPlayers: any
-) {
-  if (matchRes.winner === newPlayers.player1.id) {
-    return {
-      winner: newPlayers.player1,
-      winnerOldRating: oldPlayers.player1.rating,
-      loser: newPlayers.player2,
-      loserOldRating: oldPlayers.player2.rating,
-    };
-  } else {
-    return {
-      winner: newPlayers.player2,
-      winnerOldRating: oldPlayers.player2.rating,
-      loser: newPlayers.player1,
-      loserOldRating: oldPlayers.player1.rating,
-    };
-  }
-}
 
 async function mock_match() {
   // TODO: maybe get the rating from chain?
-  const { player1, player2 } = getTwoRandomPlayers();
+  const { player1, player2, gameId } = getMatchMaking();
 
-  const matchRes = generateMatchResult(player1, player2);
+  const matchRes = generateMatchResult(gameId, player1, player2);
 
   // TODO: make all TS errors go away
   const eloGains = calcElo(
-    getPlayer(matchRes.winner).rating,
-    getPlayer(matchRes.loser).rating
+    getPlayer(gameId, matchRes.winner).rating,
+    getPlayer(gameId, matchRes.loser).rating
   );
 
   updateDb(matchRes, eloGains);
 
   const newPlayers = {
-    winner: getPlayer(matchRes.winner),
-    loser: getPlayer(matchRes.loser),
+    winner: getPlayer(gameId, matchRes.winner),
+    loser: getPlayer(gameId, matchRes.loser),
   };
 
   const proof = await noirEloProver(
     {
-      winner: player1.rating,
-      loser: player2.rating,
+      winner: newPlayers.winner.id === player1.id ? player1.rating : player2.rating,
+      loser: newPlayers.loser.id === player1.id ? player1.rating : player2.rating,
     },
     {
       winner: newPlayers.winner.rating,
       loser: newPlayers.loser.rating,
-    }
+    },
   );
+  console.log(JSON.stringify({ player1, player2 }));
+  console.log(JSON.stringify(newPlayers));
 
   await registerMatch(matchRes, newPlayers.winner, newPlayers.loser, proof);
 }

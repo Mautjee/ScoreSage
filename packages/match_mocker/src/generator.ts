@@ -1,4 +1,4 @@
-import { MatchResult, Player } from "./types";
+import { GameId, MatchResult, Player } from "./types";
 
 const SCORE_CAP = 100;
 
@@ -12,12 +12,7 @@ function generateScore(p: Player): number {
   return getRandomInt(SCORE_CAP) + p.skill;
 }
 
-function generateGameId(): string {
-  // TODO: player rating separated per game
-  return `game-${getRandomInt(5)}`;
-};
-
-export function generateMatchResult(p1: Player, p2: Player): MatchResult {
+export function generateMatchResult(gameId: GameId, p1: Player, p2: Player): MatchResult {
   const score = {
     player1: generateScore(p1),
     player2: generateScore(p2),
@@ -26,7 +21,7 @@ export function generateMatchResult(p1: Player, p2: Player): MatchResult {
   const p1IsWinner = score.player1 >= score.player2;
 
   const result: MatchResult = {
-    gameId: generateGameId(),
+    gameId,
     score,
     timestamp: Date.now(),
     winner: p1IsWinner ? p1.id : p2.id,
