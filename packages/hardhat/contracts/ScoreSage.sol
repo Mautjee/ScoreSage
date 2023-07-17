@@ -21,12 +21,12 @@ contract ScoreSage {
 		string indexed gameId,
 		address indexed player,
 		uint32 rating,
-		bool winner,
-                bytes _proof
+		bool winner
 	);
 
-	// TODO: Check the contract call for valid input
-
+        constructor(UltraVerifier _verifier) {
+                verifier = _verifier;
+        }
 	function updatePlayerRating(
 		string calldata _gameId,
 		address _winnerAddress,
@@ -36,12 +36,23 @@ contract ScoreSage {
                 bytes calldata _proof
 	) public {
                 bytes32[] memory publicInputs = new bytes32[](4);
+                if (gameRatings[_gameId][_winnerAddress] == 0) {
+                        gameRatings[_gameId][_winnerAddress] = 1500;
+                }
+                if (gameRatings[_gameId][_loserAddress] == 0) {
+                        gameRatings[_gameId][_loserAddress] = 1500;
+                }
                 publicInputs[0] = bytes32(uint256(gameRatings[_gameId][_winnerAddress]));
                 publicInputs[1] = bytes32(uint256(_winnerRating));
                 publicInputs[2] = bytes32(uint256(gameRatings[_gameId][_loserAddress]));
                 publicInputs[3] = bytes32(uint256(_loserRating));
 
-                // assert(verifier.verify(_proof, publicInputs));
+                console.logBytes32(publicInputs[0]);
+                console.logBytes32(publicInputs[1]);
+                console.logBytes32(publicInputs[2]);
+                console.logBytes32(publicInputs[3]);
+
+                assert(verifier.verify(_proof, publicInputs));
 		// Print data to the hardhat chain console. Remove when deploying to a live network.
 		console.log(
 			"Changing the winner rating: '%s' of %s ",
@@ -59,7 +70,7 @@ contract ScoreSage {
 		gameRatings[_gameId][_loserAddress] = _loserRating;
 
 		// emit: keyword used to trigger an event
-		emit newPublishedRating(_gameId, _winnerAddress, _winnerRating, true, _proof);
-		emit newPublishedRating(_gameId, _loserAddress, _loserRating, false, _proof);
+		emit newPublishedRating(_gameId, _winnerAddress, _winnerRating, true);
+		emit newPublishedRating(_gameId, _loserAddress, _loserRating, false);
 	}
 }
