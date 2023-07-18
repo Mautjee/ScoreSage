@@ -41,8 +41,13 @@ yarn chain
 yarn run-graph-node
 ```
 *If you have docker-compose installed as a standalone, you'll need to change `packages/services/package.json` to use `docker-compose` instead of `docker compose`.*
+
+
+Before running terminal 3, make sure that The Graph has finished its' set-up.
 ```bash
 # terminal 3 (Nextjs)
+yarn graph-create-local # requires local chain and The Graph to be running
 yarn deploy-and-graph   # requires local chain and The Graph to be running
 yarn start
 ```
+*When starting The Graph you will be prompted to fill in a version. v0.0.1 will do fine.*
