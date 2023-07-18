@@ -30,7 +30,7 @@ Before you begin, you need to install the following tools:
 - [nargo](https://noir-lang.org/getting_started/nargo_installation#installation)
 
 ### Running
-The project requires four processes to run. They are referred to as terminals below. Once all processes are started the population of the DB will start. After a couple of minutes you can go to http://localhost:3000/leaderboards and explore the UI.
+The project requires four processes to run. They are referred to as terminals below. Once all processes are started the population of the DB will start. After a couple of minutes you can go to http://localhost:3000/leaderboards and explore the UI. Sometimes The Graph crashes when the `match_mocker` is running, so after a while it can be closed.
 
 ```bash
 # terminal 1 (Hardhat)

@@ -6,7 +6,7 @@ const game_ids: GameId[] = [
   "Chess",
   "Poker",
   "Starcraft",
-  "Street Fighter",
+  //"Street Fighter",
 ];
 
 const player_ids: Player["id"][] = [];
