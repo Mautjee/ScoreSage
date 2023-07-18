@@ -30,7 +30,7 @@ Before you begin, you need to install the following tools:
 - [nargo](https://noir-lang.org/getting_started/nargo_installation#installation)
 
 ### Running
-The project requires three processes to run. They are referred to as terminals below.
+The project requires four processes to run. They are referred to as terminals below.
 
 ```bash
 # terminal 1 (Hardhat)
@@ -47,8 +47,16 @@ yarn run-graph-node
 Before running terminal 3, make sure that The Graph has finished its' set-up.
 ```bash
 # terminal 3 (Nextjs)
-yarn graph-create-local # requires local chain and The Graph to be running
-yarn deploy-and-graph   # requires local chain and The Graph to be running
+# requires local chain and The Graph to be running
+
+yarn graph-create-local
+yarn deploy-and-graph
 yarn start
 ```
 *When starting The Graph you will be prompted to fill in a version. v0.0.1 will do fine.*
+
+```bash
+# terminal 4 (Mocking matches with proof-generation)
+# requires local chain to be running
+yarn match_mocker:start
+```
