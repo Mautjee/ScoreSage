@@ -17,7 +17,7 @@ Independent communities can consume rating information for their own needs at lo
 ---
 ## About the project and how to run it
 
-This  project is bootstraped using "[🏗 Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2/tree/main)", to see our own additions refer to [the diff to `v0.0.0` here](https://github.com/Mautjee/score-sage/compare/v0.0.0...develop).
+This  project is bootstraped using "[🏗 Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2/tree/main)", to see our own additions refer to [the diff to `v0.0.0` here](https://github.com/Mautjee/score-sage/compare/v0.0.0...main).
 
 
 ### Requirements
@@ -30,7 +30,7 @@ Before you begin, you need to install the following tools:
 - [nargo](https://noir-lang.org/getting_started/nargo_installation#installation)
 
 ### Running
-The project requires four processes to run. They are referred to as terminals below.
+The project requires four processes to run. They are referred to as terminals below. Once all processes are started the population of the DB will start. After a couple of minutes you can go to http://localhost:3000/leaderboards and explore the UI.
 
 ```bash
 # terminal 1 (Hardhat)
