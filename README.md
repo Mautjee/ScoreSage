@@ -27,6 +27,7 @@ Before you begin, you need to install the following tools:
 - [Node (v18 LTS)](https://nodejs.org/en/download/)
 - Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
 - [docker-compose](https://docs.docker.com/compose/install/)
+- [nargo](https://noir-lang.org/getting_started/nargo_installation#installation)
 
 ### Running
 The project requires three processes to run. They are referred to as terminals below.
