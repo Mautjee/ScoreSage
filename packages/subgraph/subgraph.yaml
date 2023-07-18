@@ -19,6 +19,6 @@ dataSources:
         - name: ScoreSage
           file: ./abis/localhost_ScoreSage.json
       eventHandlers:
-        - event: newPublishedRating(indexed uint32,indexed address,uint32,bool)
+        - event: newPublishedRating(string,indexed address,uint32,bool,bytes,bytes32[])
           handler: handlePublishedRating
       file: ./src/mapping.ts

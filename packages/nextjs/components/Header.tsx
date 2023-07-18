@@ -57,6 +57,12 @@ export const Header = () => {
           Leaderboards
         </NavLink>
       </li>
+      <li>
+        <NavLink href="/profilesx">
+          <QueueListIcon className="h-4 w-4" />
+          Player Profile
+        </NavLink>
+      </li>
     </>
   );
 

@@ -1,12 +1,21 @@
 type Player @entity {
   id: ID!
-  gameId: BigInt!
+  gameId: String!
   address: Bytes!
   rating: BigInt!
   createdAt: BigInt!
   gamesWon: Int!
   gamesLost: Int!
+  proof: Bytes!
+  witness: [Bytes!]!
 }
+
+# fragment PlayerGame on Player {
+#   game
+#   rating
+#   gamesWon
+#   gamesLost
+# }
 
 # "Player object is used to store player information"
 # type Player @entity {

@@ -1,8 +1,4 @@
-import {
-  DEFAULT_NUMBER_OF_GAMES,
-  DEFAULT_NUMBER_OF_PLAYERS,
-  SKILL_CAP,
-} from "./constants";
+import { DEFAULT_NUMBER_OF_PLAYERS, SKILL_CAP } from "./constants";
 import { EloCalculationResult, GameId, MatchResult, Player } from "./types";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
@@ -26,7 +22,7 @@ export function init(nbrOfPlayers: number = DEFAULT_NUMBER_OF_PLAYERS) {
     const account = privateKeyToAccount(generatePrivateKey());
     player_ids.push(account.address);
   }
-
+  console.log(player_ids);
   for (const gameId of game_ids) {
     player_db[gameId] = {};
     for (const id of player_ids) {
