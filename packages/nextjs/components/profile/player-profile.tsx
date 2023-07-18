@@ -1,3 +1,4 @@
+import { PlayerRank } from "./player-rank";
 import { Player } from "~~/../subgraph/generated/schema";
 
 interface PlayerProfileProps {
@@ -12,6 +13,7 @@ export const PlayerProfile = ({ players, isLoading }: PlayerProfileProps) => {
         <thead>
           <tr>
             <th className="bg-primary">Game</th>
+            <th className="bg-primary">Rank</th>
             <th className="bg-primary">Rating</th>
             <th className="bg-primary">Games won</th>
             <th className="bg-primary">Games lost</th>
@@ -32,14 +34,7 @@ export const PlayerProfile = ({ players, isLoading }: PlayerProfileProps) => {
         ) : (
           <tbody>
             {players.map((player, key) => {
-              return (
-                <tr key={key} className="hover text-sm">
-                  <td className="w-1/12">{player.gameId}</td>
-                  <td className="w-1/12">{player.rating}</td>
-                  <td className="w-1/12">{player.gamesWon}</td>
-                  <td className="w-2/12">{player.gamesLost}</td>
-                </tr>
-              );
+              return <PlayerRank player={player} key={key} />;
             })}
           </tbody>
         )}
