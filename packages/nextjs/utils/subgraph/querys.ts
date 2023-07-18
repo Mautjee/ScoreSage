@@ -24,6 +24,7 @@ export const GET_PLAYER_DATA = gql`
   query getPlayers($playerAddress: String!) {
     players(where: { address: $playerAddress }) {
       gameId
+      address
       rating
       gamesLost
       gamesWon
